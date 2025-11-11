@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     'apps.customers',
     'apps.destination',
     'apps.plans',
-    
+    #framework
+    'rest_framework',
+    #cors
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
