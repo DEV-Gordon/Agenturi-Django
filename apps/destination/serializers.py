@@ -24,11 +24,3 @@ class DestinationSerializer(serializers.ModelSerializer):
         model = Destination
         fields = ['id', 'name', 'country', 'city', 'accommodations', 'transports']
         read_only_fields = ('id',)
-
-
-class DestinationListSerializer(serializers.ModelSerializer):
-    """Serializer ligero para listados"""
-    class Meta:
-        model = Destination
-        fields = ['id', 'name', 'country', 'city']
-        read_only_fields = ('id',)
