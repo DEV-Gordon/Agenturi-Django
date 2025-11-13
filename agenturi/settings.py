@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-#from decouple import config
+from decouple import config
+
+# buscar forma de gestionar conexiones con un archivo dot env, externo como el metodo venv del profe
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,11 +83,52 @@ WSGI_APPLICATION = 'agenturi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Get the selected database engine from environment
+DATABASE_ENGINE = config('DATABASE_ENGINE', default='mysql')
+
+# Database configurations
+DATABASE_CONFIGS = {
+    'mysql': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('MYSQL_NAME'),
+        'USER': config('MYSQL_USER'),
+        'PASSWORD': config('MYSQL_PASSWORD'),
+        'HOST': config('MYSQL_HOST'),
+        'PORT': config('MYSQL_PORT'),
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
+    },
+    'postgresql': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('POSTGRES_NAME'),
+        'USER': config('POSTGRES_USER'),
+        'PASSWORD': config('POSTGRES_PASSWORD'),
+        'HOST': config('POSTGRES_HOST'),
+        'PORT': config('POSTGRES_PORT'),
+    },
+    'mssql': {
+        'ENGINE': 'mssql',
+        'NAME': config('MSSQL_NAME'),
+        'USER': config('MSSQL_USER'),
+        'PASSWORD': config('MSSQL_PASSWORD'),
+        'HOST': config('MSSQL_HOST'),
+        'PORT': config('MSSQL_PORT'),
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+        },
+    },
+    'oracle': {
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': f"{config('ORACLE_HOST')}:{config('ORACLE_PORT')}/{config('ORACLE_SID', default='XE')}",
+        'USER': config('ORACLE_USER'),
+        'PASSWORD': config('ORACLE_PASSWORD'),
+    },
+}
+
+# Set the database configuration based on the selected engine
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': DATABASE_CONFIGS.get(DATABASE_ENGINE, DATABASE_CONFIGS['mysql'])
 }
 
 # Password validation
