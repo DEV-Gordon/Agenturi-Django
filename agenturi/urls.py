@@ -17,13 +17,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+from rest_framework.routers import DefaultRouter
+
+#global Router
+from apps.destination.urls import router as destination_router
+from apps.customers.urls import router as customer_router
+from apps.plans.urls import router as plans_router
+
+router = DefaultRouter()
+router.registry.extend(destination_router.registry)
+router.registry.extend(customer_router.registry)
+router.registry.extend(plans_router.registry)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('customers/', include('apps.customers.urls')),
     path('destination/', include('apps.destination.urls')),
     path('plans/', include('apps.plans.urls')),
-    path('api/', include('apps.destination.urls')),
-    path('api/', include('apps.plans.urls')),
-    path('api/', include('apps.customers.urls')),
+    path('api/', include(router.urls)),
 ]
