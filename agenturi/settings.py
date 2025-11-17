@@ -124,6 +124,10 @@ DATABASE_CONFIGS = {
         'USER': config('ORACLE_USER'),
         'PASSWORD': config('ORACLE_PASSWORD'),
     },
+    'sqlite': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': config('SQLITE_NAME', default='db.sqlite3'),
+    },
 }
 
 # Set the database configuration based on the selected engine
