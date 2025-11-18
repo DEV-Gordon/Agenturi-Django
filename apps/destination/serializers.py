@@ -9,16 +9,15 @@ class AccommodationSerializer(serializers.ModelSerializer):
         read_only_fields = ('id',)
 
 
-class TransportSerializer(serializers.ModelSerializer):
+class TransportMiniSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transport
-        fields = '__all__'
-        read_only_fields = ('id',)
+        fields = ['id', 'type', 'company']
 
 
 class DestinationSerializer(serializers.ModelSerializer):
     accommodations = AccommodationSerializer(many=True, read_only=True, source='accommodation_set')
-    transports = TransportSerializer(many=True, read_only=True, source='transport_set')
+    transports = TransportMiniSerializer(many=True, read_only=True, source='transport_set')
     
     class Meta:
         model = Destination
