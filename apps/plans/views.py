@@ -10,7 +10,7 @@ def home ( request):
 
 #viewsets
 class PlanViewSet(viewsets.ModelViewSet):
-    queryset = Plan.objects.all()
+    queryset = Plan.objects.select_related('destination').all()
     serializer_class = PlanSerializer
 
 class ItineraryViewSet(viewsets.ModelViewSet):
