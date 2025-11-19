@@ -36,3 +36,16 @@ class TransportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transport
         fields = ['id', 'type', 'company', 'destination', 'destination_id']
+
+class AccommodationSerializer(serializers.ModelSerializer):
+    destination = DestinationSerializer(read_only=True)
+    destination_id = serializers.PrimaryKeyRelatedField(
+        queryset=Destination.objects.all(),
+        source='destination',
+        write_only=True
+    )
+
+    class Meta:
+        model = Accommodation
+        fields = ['id', 'name', 'type', 'address', 'destination', 'destination_id']
+        read_only_fields = ('id',)
