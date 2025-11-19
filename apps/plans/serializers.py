@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Plan, Guide, Itinerary, Activity, Destination
 from apps.destination.serializers import DestinationSerializer
 
+
 class GuideSerializer(serializers.ModelSerializer):
     class Meta:
         model = Guide
